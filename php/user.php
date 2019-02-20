@@ -10,7 +10,7 @@ if (isset($_POST['enter'])) {
     $stmt->bind_param("ss", $email, $pwd); //string, integer, double, blob
     //azért két S, mert 2 db string van
     $stmt->execute(); //most hajtódik végre a select
-    $stmt->store_result();
+    $stmt->store_result();//numrows adatainak lekéréséhez kell
 
     if ($stmt->num_rows == 1) {
         //sikeresen bejelentkezett
