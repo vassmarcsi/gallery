@@ -35,7 +35,7 @@ if (isset($_SESSION['userid'])) {
     $kepek = "<div class='row'>";
     while ($stmt->fetch()) {
         $kepek .= "<div class='col-3'>"
-                . "<img class='img-thumbnail' src='../uploads/{$image}'>"
+                . "<img class='img-thumbnail' src='../uploads/{$image}' title={$image}>"
                 . "</div>";
     }
     $kepek .= "</div>";
