@@ -1,33 +1,46 @@
 <?php
-session_start();
-require_once('../config/connect.php');
+require_once ('../config/init.php');
 
 if (isset($_SESSION['userid'])) {
     $id = $_SESSION['userid'];
-    $sql = "SELECT * FROM gallery WHERE uid='$id';";
-    $res = $conn->query($sql);
 
-    if ($res) {
-        $kepek = "<table class='table table-hover'><tr>";
-        $kepek .= "<th>ID</th>";
-        $kepek .= "<th>Cím</th>";
-        $kepek .= "<th>Leírás</th>";
-        $kepek .= "<th>Fájl neve</th>";
-        $kepek .= "<th>Kép</th></tr>";
+    /* Marcsi féle
+      $sql = "SELECT * FROM gallery WHERE uid='$id';";
+      $res = $conn->query($sql);
+      if ($res) {
+      $kepek = "<table class='table table-hover'><tr>";
+      $kepek .= "<th>ID</th>";
+      $kepek .= "<th>Cím</th>";
+      $kepek .= "<th>Leírás</th>";
+      $kepek .= "<th>Fájl neve</th>";
+      $kepek .= "<th>Kép</th></tr>";
+      }
+
+      while ($row = $res->fetch_assoc()) {
+      $eleres = '../uploads/' . $row['image'];
+      $kepek .= "<td>{$row['id']}</td>";
+      $kepek .= "<td>{$row['title']}</td>";
+      $kepek .= "<td>{$row['description']}</td>";
+      $kepek .= "<td>{$row['image']}</td>";
+      $kepek .= "<td><img src='$eleres' title={$row['image']} class='img-thumbnail'></td></tr>";
+      }
+      $kepek .= "</table>"; */
+
+    $sql = "SELECT * FROM gallery WHERE uid=?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $stmt->bind_result($id, $uid, $title, $description, $image);
+
+    $kepek = "<div class='row'>";
+    while ($stmt->fetch()) {
+        $kepek .= "<div class='col-3'>"
+                . "<img class='img-thumbnail' src='../uploads/{$image}'>"
+                . "</div>";
     }
-
-    while ($row = $res->fetch_assoc()) {
-        $eleres = '../uploads/' . $row['image'];
-        $kepek .= "<td>{$row['id']}</td>";
-        $kepek .= "<td>{$row['title']}</td>";
-        $kepek .= "<td>{$row['description']}</td>";
-        $kepek .= "<td>{$row['image']}</td>";
-        $kepek .= "<td><img src='$eleres' title={$row['image']} class='img-thumbnail'></td></tr>";
-    }
-    $kepek .= "</table>";
-
-    //$stmt -> close();
-    //$conn -> close();
+    $kepek .= "</div>";
+    $stmt->close();
+    $conn->close();
 }
 ?>
 
@@ -39,13 +52,13 @@ if (isset($_SESSION['userid'])) {
         <title>Galéria</title>
         <link rel="stylesheet" href="../css/bootstrap.min.css">
         <style>
-            table, td, th{
+            /*table, td, th{
                 border: 1px solid black;
                 margin: auto;
             }
             img{
                 width: 20%;
-            }
+            }*/
         </style>
     </head>
     <body>
@@ -67,8 +80,10 @@ if (isset($_SESSION['userid'])) {
 
         <h1>A feltöltött képeid</h1>
 
-        <?php
-        echo $kepek;
-        ?>
+        <div class="container-fluid">
+            <?php
+            echo $kepek;
+            ?>
+        </div>
     </body>
 </html>

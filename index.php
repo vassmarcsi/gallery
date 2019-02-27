@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 
 <html>
@@ -17,6 +21,15 @@
                     </form>
                 </div>
             </div>
+
+            <?php
+            if (isset($_SESSION['jogosulatlan']) && $_SESSION['jogosulatlan'] == 'true') {
+                //if (isset($_SESSION['jogosulatlan']) && $_SESSION['jogosulatlan']) {
+                echo file_get_contents("html/error.html");
+                unset($_SESSION['jogosulatlan']);
+            }
+            ?>
+
         </div>
     </body>
 </html>

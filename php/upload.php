@@ -1,7 +1,5 @@
 <?php
-session_start();
-
-require_once ('../config/connect.php');
+require_once ('../config/init.php');
 
 if (isset($_POST['upload']) && isset($_SESSION['userid'])) {
     $title = $_POST['title'];
@@ -41,7 +39,6 @@ if (isset($_POST['upload']) && isset($_SESSION['userid'])) {
     }
     //var_dump($imgName);
 }
-
 
 $conn->close();
 ?>
