@@ -32,7 +32,9 @@ if (isset($_POST['upload']) && isset($_SESSION['userid'])) {
             $sql = "INSERT INTO gallery (uid, title, description, image) VALUES (?,?,?,?);";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("isss", $userid, $title, $description, $new_img_name);
-            $stmt -> execute();
+            $stmt->execute();
+
+            $stmt->close();
         }
     } else {
         echo 'Nem engedélyezett fájl!';
@@ -40,9 +42,8 @@ if (isset($_POST['upload']) && isset($_SESSION['userid'])) {
     //var_dump($imgName);
 }
 
-$stmt -> close();
-$conn ->close();
 
+$conn->close();
 ?>
 <!DOCTYPE html>
 
@@ -57,13 +58,16 @@ $conn ->close();
         <nav class="navbar navbar-expand-sm bg-light">
             <ul class="navbar-nav">
                 <li class="nav-item">
+                    <a href="gallery.php" class="nav-link">Galéria</a>
+                </li>
+                <li class="nav-item">
                     <a href="upload.php" class="nav-link">Kép feltöltése</a>
                 </li>
-<?php
-if (isset($_SESSION['userid'])) {
-    echo "<a href='logout.php' class='nav-link'>Kilépés</a>";
-}
-?>
+                <?php
+                if (isset($_SESSION['userid'])) {
+                    echo "<a href='logout.php' class='nav-link'>Kilépés</a>";
+                }
+                ?>
             </ul>
         </nav>
 

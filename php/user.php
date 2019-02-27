@@ -36,6 +36,9 @@ if (isset($_POST['enter'])) {
         <nav class="navbar navbar-expand-sm bg-light">
             <ul class="navbar-nav">
                 <li class="nav-item">
+                    <a href="gallery.php" class="nav-link">Galéria</a>
+                </li>
+                <li class="nav-item">
                     <a href="upload.php" class="nav-link">Kép feltöltése</a>
                 </li>
                 <?php
