@@ -39,6 +39,10 @@ if (isset($_POST['upload']) && isset($_SESSION['userid'])) {
     }
     //var_dump($imgName);
 }
+
+$stmt -> close();
+$conn ->close();
+
 ?>
 <!DOCTYPE html>
 
